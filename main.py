@@ -493,7 +493,13 @@ def draw_medium(cv, x, y, w, h, story):
     for line_text in lines:
         draw_text(cv, x + 12, ly, line_text, 2, INK)
         ly += step
-    MEDIUM_MOTIFS[motif](cv, x + w - 26, y + h // 2)
+    # A wide tag runs along the panel's top right, where the motif's
+    # top pins and edges would crowd it; drop the motif a little so
+    # the two stay clear of each other.
+    motif_cy = y + h // 2
+    if text_width(tag, 2) > w - 90:
+        motif_cy += 7
+    MEDIUM_MOTIFS[motif](cv, x + w - 26, motif_cy)
 
 
 def draw_world_map(cv, x, y, cell=7, dot=4):
